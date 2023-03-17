@@ -4,12 +4,12 @@ author: "Joy Zhou"
 output: html_notebook
 ---
 
-### Reproducible Image and Online Resourcesv
+### Reproducible Image and Online Resources
 An image of this project as of *`r format(Sys.time(), '%d %B %Y')`* can be accessed by clicking this link.
 An interactive web app is available by clicking this link instead.
 
 ### Script Settings and Resources
-```{r inclde = TRUE}
+```{r eval = FALSE}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
 ```
