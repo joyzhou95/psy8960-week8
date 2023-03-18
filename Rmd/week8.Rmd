@@ -21,10 +21,18 @@ library(DT)
 week8_tbl <- read_csv(file = "data/week3.csv") %>%
   mutate(q5 = recode(q5, "1" = 5, "2" = 4, "4" = 2, "5" = 1)) %>%
   select(starts_with("q"))
+```
 
-datatable(week8_tbl) #display data in a paginate format
+### Visualization
+```{r, echo = FALSE, warning = FALSE}
+datatable(week8_tbl) 
 
-
+week8_tbl %>%
+  mutate(q1_q6_mean = rowMeans(select(week7_tbl, q1:q6)),
+         q8_q10_mean = rowMeans(select(week7_tbl, q8:q10))) %>%
+  ggplot(aes(q1_q6_mean, q8_q10_mean)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm", color = "purple")
 ```
 
 
