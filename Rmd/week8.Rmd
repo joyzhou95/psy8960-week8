@@ -5,7 +5,7 @@ output: html_notebook
 ---
 
 ### **Reproducible Image and Online Resources**
-##### An image of this project as of *`r format(Sys.time(), '%d %B %Y')`* can be accessed by clicking this link.
+##### An image of this project as of *`r format(Sys.time(), '%d %B %Y')`* can be accessed by [clicking this link](https://hub.gke2.mybinder.org/user/joyzhou95-psy8960-week8-sec4ejg4/rstudio/).
 ##### An interactive web app is available by clicking this link instead.
 
 ### **Script Settings and Resources**
@@ -43,7 +43,5 @@ round(correlation$estimate, 2)
 round(correlation$p.value, 2)
 ```
 I observed a correlation of `r round(correlation$estimate, 2)`. Given the p-value is  `r round(correlation$p.value, 2)`, which is larger than 0.05, the correlation is not significant. 
-
-
 
 
