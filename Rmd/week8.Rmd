@@ -22,8 +22,8 @@ library(DT)
 week8_tbl <- read_csv(file = "../data/week3.csv") %>%
   mutate(q5 = recode(q5, "1" = 5, "2" = 4, "4" = 2, "5" = 1),
          q1_q6_mean = rowMeans(select(week8_tbl, q1:q6)),
-         q8_q10_mean = rowMeans(select(week8_tbl, q8:q10))) %>%
-  select(starts_with("q"))
+         q8_q10_mean = rowMeans(select(week8_tbl, q8:q10)),
+         gender = factor(gender, ordered = FALSE, levels = c("M", "F"),labels = c("Male", "Female")))
 ```
 
 ### **Visualization**
@@ -42,6 +42,15 @@ correlation <- cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)
 round(correlation$estimate, 2)
 round(correlation$p.value, 2)
 ```
-I observed a correlation of `r round(correlation$estimate, 2)`. Given the p-value is  `r round(correlation$p.value, 2)`, which is larger than 0.05, the correlation is not significant. 
+I observed a correlation of `r round(correlation$estimate, 2)`. Given the p-value is  `r round(correlation$p.value, 2)`, which is larger than 0.05, the correlation is not significant.
+
+### **Data Export**
+###### Saved the dataframe as csv as it is the format appropriate for shiny 
+###### Used write_csv fucntion as it would export datafiles more compatible with read_csv from the same package
+```{r}
+week8_tbl %>%
+  write_csv("../data/week8_tbl.csv")
+```
+
 
 
