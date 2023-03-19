@@ -1,11 +1,14 @@
 name: shiny_week8
-title:
+title: shiny_week8
 username:
 account: joyzhou
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 8606983
-bundleId: 6977678
+appId: 8608675
+bundleId: 6979152
 url: https://joyzhou.shinyapps.io/shiny_week8/
-when: 1679202111.07791
-lastSyncTime: 1679202111.07793
+when: 1679251628.81183
+lastSyncTime: 1679251628.81185
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .Rapp.history|.RData|NOupload/app.R|NOupload/rsconnect/shinyapps.io/joyzhou/NOupload.dcf
