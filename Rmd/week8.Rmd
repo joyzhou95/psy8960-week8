@@ -1,57 +1,62 @@
 ---
 title: "PSY 8960 Week 8 Project"
 author: "Joy Zhou"
-knit: render("week8_Rmd", output_file = "../out/week8.html")
 output:
   html_document:
     df_print: paged
 ---
 
 ### **Reproducible Image and Online Resources**
-##### An image of this project as of *`r format(Sys.time(), '%d %B %Y')`* can be accessed by [clicking this link](https://hub.gke2.mybinder.org/user/joyzhou95-psy8960-week8-sec4ejg4/rstudio/).
-##### An interactive web app is available by clicking this link instead.
+##### An image of this project as of *`r format(Sys.time(), '%d %B %Y')`* can be accessed by [clicking this link](https://mybinder.org/v2/gh/joyzhou95/psy8960-week8.git/HEAD?urlpath=rstudio).
+##### An interactive web app is available by [clicking this link instead]( https://joyzhou.shinyapps.io/shiny_week8/).
 
 ### **Script Settings and Resources**
 ```{r, message = FALSE, warning = FALSE}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
-library(knitr)
 library(DT)
 ```
 
 ### **Data Import and Cleaning**
-#### comments
+###### Imported the csv dataset and created all variables that will be used in all subsequent codings to minimize data manipulation in later steps 
+###### Used rowwise to aggregate across rows and then calcualted the mean variable using the row means of the selected variables
 ```{r message = FALSE}
 week8_tbl <- read_csv(file = "../data/week3.csv") %>%
-  mutate(q5 = recode(q5, "1" = 5, "2" = 4, "4" = 2, "5" = 1),
-         q1_q6_mean = rowMeans(select(week8_tbl, q1:q6)),
-         q8_q10_mean = rowMeans(select(week8_tbl, q8:q10)),
+  mutate(q5 = recode(q5, "1" = 5, "2" = 4, "4" = 2, "5" = 1)) %>%
+  rowwise() %>%
+  mutate(q1_q6_mean = mean(c(q1,q2,q3,q4,q5)),
+         q8_q10_mean = mean(c(q8,q9,q10)),
          gender = factor(gender, ordered = FALSE, levels = c("M", "F"),labels = c("Male", "Female")))
 ```
 
 ### **Visualization**
-```{r, echo = FALSE, warning = FALSE}
+###### Displayed paginated data using the DT::datatable function
+###### Created the scatterplot between two mean vairiables using ggplot function, jittered it to avoid overplotting and added required settings 
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 datatable(week8_tbl) 
 
 week8_tbl %>%
   ggplot(aes(q1_q6_mean, q8_q10_mean)) +
   geom_point(position = "jitter") +
-  geom_smooth(method = "lm", color = "purple")
+  geom_smooth(method = "lm", color = "purple") 
 ```
 
 ### **Analysis**
+###### Displayed correlation and p-value using cor.test and got the specific values from the cor.test output
+###### Added texts with the values embedded
 ```{r}
-correlation <- cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)
-round(correlation$estimate, 2)
-round(correlation$p.value, 2)
+cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)
+round(cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)$estimate, 2)
+round(cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)$p.value, 2)
 ```
-I observed a correlation of `r round(correlation$estimate, 2)`. Given the p-value is  `r round(correlation$p.value, 2)`, which is larger than 0.05, the correlation is not significant.
+I observed a correlation of `r round(cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)$estimate, 2)` between the mean scores of questions 1-6 and the mean scores of questions 8-10. Given the p-value is  `r round(cor.test(week8_tbl$q1_q6_mean, week8_tbl$q8_q10_mean)$p.value, 2)`, which is larger than 0.05, the correlation is not significant.
 
 ### **Data Export**
 ###### Used saveRDS fucntion to save the dataset in RDS form and in the shiny folder so it can be easily accessed by shiny
+###### Saved in the shiny diretory where app.R will be 
 ```{r}
 week8_tbl %>%
-  saveRDS(file = "../shiny/week8_tbl")
+  saveRDS(file = "../shiny/week8.rds")
 ```
 
 
