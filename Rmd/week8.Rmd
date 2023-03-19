@@ -1,9 +1,10 @@
 ---
 title: "PSY 8960 Week 8 Project"
 author: "Joy Zhou"
-output:
+output: 
   html_document:
     df_print: paged
+    knit: rmarkdown::render("week8.Rmd", out_dir = "../out")
 ---
 
 ### **Reproducible Image and Online Resources**
@@ -15,6 +16,7 @@ output:
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(tidyverse)
 library(DT)
+getwd()
 ```
 
 ### **Data Import and Cleaning**
