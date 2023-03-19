@@ -1,10 +1,7 @@
 library(shiny)
 # Load tidyverse package for data importing
 library(tidyverse)
-
-# Import the dataset using readr as it is an easy way for importing data 
-week8_tbl <- read_csv(file = "../data/week8_tbl.csv")
-
+week8_tbl <- readRDS("../shiny/week8_tbl.Rds")
 ui <- fluidPage(
   selectInput("gender", "Select gender if you only want to see one gender's data",
               selected = "All", choices = c("Male", "Female", "All")),
@@ -78,3 +75,12 @@ server <- function(input, output) {
 }
 
 shinyApp(ui = ui, server = server)
+
+library(rsconnect)
+rsconnect::setAccountInfo(name='joyzhou', 
+                          token='2590A8DB5F2C12C2946B93E305228F9D', 
+                          secret='Fr2jmw3fmOMtVIOpKGiVsENgS+9a0TTG/dOe+ll9')
+
+rsconnect::deployApp(appName = "shiny_week8", appDir = "../shiny")
+
+
