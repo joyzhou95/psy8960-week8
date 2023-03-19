@@ -1,52 +1,28 @@
+# Load required packages 
 library(shiny)
-# Load tidyverse package for data importing
 library(tidyverse)
 
 ui <- fluidPage(
-  selectInput("gender", "Select gender if you only want to see one gender's data",
-              selected = "All", choices = c("Male", "Female", "All")),
-  selectInput("errorband", "Select display or suppress error band", 
-              selected = "Display Error Band", choices = c("Display Error Band",
-                                                           "Suppress Error Band")),
-  selectInput("completetime", "Select include or exclude participants who completed assessments before Aug. 1, 2017",
-              selected = "Include", choices = c("Include", "Exclude")),
-  # Use plotOutput to create a non-interactive plot output 
-  plotOutput("fig")
+  
+  # Application title
+  titlePanel("PSY 8960 Week 8 Shiny Project"),
+  
+  # Sidebar with a select input for number of bins 
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("gender", "Select gender if you only want to see one gender's data",
+                  selected = "All", choices = c("Male", "Female", "All")),
+      selectInput("errorband", "Select display or suppress error band", 
+                  selected = "Display Error Band", choices = c("Display Error Band",
+                                                               "Suppress Error Band")),
+      selectInput("completetime", "Select include or exclude participants who completed assessments before Aug. 1, 2017",
+                  selected = "Include", choices = c("Include", "Exclude"))
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      # Use plotOutput to create a non-interactive plot output 
+      plotOutput("fig")
+    )
+  )
 )
-server <- function(input, output) {
-  output$fig <- renderPlot({
-    week8_tbl <- read_rds("./week8.rds")
-    if (input$completetime == "Exclude"){
-      week8_tbl %>% filter(timeEnd > "2017-08-01")} else
-      {week8_tbl %>%
-          ggplot(aes(q1_q6_mean, q8_q10_mean)) +
-          geom_point(position = "jitter") +
-          geom_smooth(method = "lm", color = "purple")
-      } 
-    if (input$errorband == "Suppress Error Band"){
-      week8_tbl %>%
-        ggplot(aes(q1_q6_mean, q8_q10_mean)) +
-        geom_point(position = "jitter") +
-        geom_smooth(method = "lm", color = "purple", se = F)} else {
-          week8_tbl %>%
-            ggplot(aes(q1_q6_mean, q8_q10_mean)) +
-            geom_point(position = "jitter") +
-            geom_smooth(method = "lm", color = "purple")
-        }
-    if (input$gender != "All") {
-          week8_tbl %>%
-            filter(gender == input$gender) %>%
-            ggplot(aes(q1_q6_mean, q8_q10_mean)) +
-            geom_point(position = "jitter") +
-            geom_smooth(method = "lm", color = "purple") 
-        } else {
-            week8_tbl %>%
-              ggplot(aes(q1_q6_mean, q8_q10_mean)) +
-              geom_point(position = "jitter") +
-              geom_smooth(method = "lm", color = "purple")
-          }          
-  })
-}
-shinyApp(ui = ui, server = server)
-
-
