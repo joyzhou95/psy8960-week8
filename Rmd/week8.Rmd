@@ -1,7 +1,10 @@
 ---
 title: "PSY 8960 Week 8 Project"
 author: "Joy Zhou"
-output: html_notebook
+knit: render("week8_Rmd", output_file = "../out/week8.html")
+output:
+  html_document:
+    df_print: paged
 ---
 
 ### **Reproducible Image and Online Resources**
@@ -45,11 +48,10 @@ round(correlation$p.value, 2)
 I observed a correlation of `r round(correlation$estimate, 2)`. Given the p-value is  `r round(correlation$p.value, 2)`, which is larger than 0.05, the correlation is not significant.
 
 ### **Data Export**
-###### Saved the dataframe as csv as it is the format appropriate for shiny 
-###### Used write_csv fucntion as it would export datafiles more compatible with read_csv from the same package
+###### Used saveRDS fucntion to save the dataset in RDS form and in the shiny folder so it can be easily accessed by shiny
 ```{r}
 week8_tbl %>%
-  write_csv("../data/week8_tbl.csv")
+  saveRDS(file = "../shiny/week8_tbl")
 ```
 
 
