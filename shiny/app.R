@@ -69,9 +69,9 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 # Load library for deploying app
-library(rsconenct)
+#library(rsconenct)
 
 # Deploy and name the app 
-rsconnect::deployApp(appName = "shinny_week8")
+# rsconnect::deployApp(appName = "shinny_week8")
 
 
